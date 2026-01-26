@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grade-submission-api
-  namespace: default
+  namespace: grade
 spec:
   replicas: 1
   selector:
@@ -14,29 +14,30 @@ spec:
         app: grade-submission-api
     spec:
       imagePullSecrets:
-      - name: ghcr-secret
+        - name: ghcr-secret
       containers:
-      - name: grade-submission-api
-        image: ghcr.io/rslim087a/kubernetes-cicd-tutorial:latest
-        ports:
-        - containerPort: 3000
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
+        - name: grade-submission-api
+          image: ghcr.io/jumptotechschooldevops/k8s-ci-build:PLACEHOLDER
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: grade-submission-api
-  namespace: default
+  namespace: grade
 spec:
   selector:
     app: grade-submission-api
   ports:
-  - port: 80
-    targetPort: 3000
+    - port: 80
+      targetPort: 3000
   type: ClusterIP
+
